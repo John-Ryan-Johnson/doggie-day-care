@@ -36,3 +36,7 @@ const employees = [
     phoneNumber: '(555) 575-4354',
   },
 ];
+
+const getAllEmployees = () => employees;
+
+export default { getAllEmployees };

@@ -70,3 +70,7 @@ const dogs = [
     description: 'Likes female dogs alot. Enjoys air-conditioning and squeaky toys.',
   },
 ];
+
+const getAllDogs = () => dogs;
+
+export default { getAllDogs };
