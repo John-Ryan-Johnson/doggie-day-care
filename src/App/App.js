@@ -1,28 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <button className="btn btn-danger">Help Me</button>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import dogsData from '../helpers/data/dogsData';
+import DogPen from '../components/DogPen/DogPen';
+
+class App extends React.Component {
+  state = {
+    dogs: [],
+  }
+
+  componentDidMount() {
+    const dogs = dogsData.getAllDogs();
+    this.setState({ dogs });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <DogPen dogs={this.state.dogs}/>
+      </div>
+    );
+  }
 }
 
 export default App;
