@@ -15,7 +15,7 @@ class Employee extends React.Component {
           <div className="card-body">
             <h5 className="card-title">{employee.firstName}</h5>
             <h5 className="card-title">{employee.lastName}</h5>
-            <p className="card-text">{employee.phoneNumber}</p>
+            <p className="card-text">Phone Number: {employee.phoneNumber}</p>
           </div>
         </div>
       </div>
