@@ -10,13 +10,16 @@ class StaffRoom extends React.Component {
   }
 
   render() {
-    const myEmployees = this.props.employees;
-
-    const printEmployees = myEmployees.map((employee) => <Employee key={employee.id} employee={employee}/>);
+    const { employees } = this.props;
 
     return (
-      <div className="row">
-        {printEmployees}
+      <div>
+        <h2 className="staff text-center">Staff</h2>
+        <div className="row">
+          {
+           employees.map((employee) => <Employee key={employee.id} employee={employee} />)
+          }
+        </div>
       </div>
     );
   }

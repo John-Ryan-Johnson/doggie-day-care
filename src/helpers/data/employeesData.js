@@ -1,42 +1,25 @@
-const employees = [
-  {
-    id: 'employee1',
-    firstName: 'Jaimee',
-    lastName: 'Crownover',
-    phoneNumber: '(555) 315-7207',
-  },
-  {
-    id: 'employee2',
-    firstName: 'Contessa',
-    lastName: 'Delaune',
-    phoneNumber: '(555) 657-5900',
-  },
-  {
-    id: 'employee3',
-    firstName: 'Bert',
-    lastName: 'Hessling',
-    phoneNumber: '(555) 980-8567',
-  },
-  {
-    id: 'employee4',
-    firstName: 'Howard',
-    lastName: 'Vassar',
-    phoneNumber: '(555) 782-1162',
-  },
-  {
-    id: 'employee5',
-    firstName: 'Izetta',
-    lastName: 'Corr',
-    phoneNumber: '(555) 241-9747',
-  },
-  {
-    id: 'employee6',
-    firstName: 'Norman',
-    lastName: 'Gershon',
-    phoneNumber: '(555) 575-4354',
-  },
-];
+import axios from 'axios';
+import apiKeys from '../apiKeys.json';
 
-const getAllEmployees = () => employees;
+const baseUrl = apiKeys.firebaseKeys.databaseURL;
 
-export default { getAllEmployees };
+const getAllEmployees = () => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/employees.json`)
+    .then((result) => {
+      const allEmployeesObj = result.data;
+      const employees = [];
+      if (allEmployeesObj != null) {
+        Object.keys(allEmployeesObj).forEach((employeeId) => {
+          const newEmployee = allEmployeesObj[employeeId];
+          newEmployee.id = employeeId;
+          employees.push(newEmployee);
+        });
+      }
+      resolve(employees);
+    })
+    .catch((error) => reject(error));
+});
+
+const getSingleEmployeeById = (employeeId) => axios.get(`${baseUrl}/employees/${employeeId}.json`);
+
+export default { getAllEmployees, getSingleEmployeeById };

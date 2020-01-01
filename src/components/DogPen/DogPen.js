@@ -10,14 +10,17 @@ class DogPen extends React.Component {
   }
 
   render() {
-    const myDogs = this.props.dogs;
-
-    const printDogs = myDogs.map((dog) => <Dog key={dog.id} dog={dog} />);
+    const { dogs } = this.props;
 
     return (
-        <div className="row">
-          {printDogs}
+      <div className="DogPen">
+        <h1 className="babies text-center mt-5">Kennel Babies</h1>
+        <div className="row justify-content-center">
+          {
+            dogs.map((dog) => <Dog key={dog.id} dog={dog} />)
+          }
         </div>
+      </div>
     );
   }
 }
