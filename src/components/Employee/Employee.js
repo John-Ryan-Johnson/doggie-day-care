@@ -10,11 +10,10 @@ class Employee extends React.Component {
     const { employee } = this.props;
     return (
 
-      <div className="col-md-2">
+      <div className="col-4">
         <div className="card mt-3 mb-3">
           <div className="card-body">
-            <h5 className="card-title">{employee.firstName}</h5>
-            <h5 className="card-title">{employee.lastName}</h5>
+            <h5 className="card-title">{employee.firstName} {employee.lastName}</h5>
             <p className="card-text">Phone Number: {employee.phoneNumber}</p>
           </div>
         </div>

@@ -1,31 +1,23 @@
 import React from 'react';
-
-import firebase from 'firebase/app';
-
-import firebaseConnection from '../../helpers/data/connection';
-import Auth from '../Auth/Auth';
-import MyNavbar from '../MyNavbar/MyNavbar';
-import employeesData from '../../helpers/data/employeesData';
 import dogsData from '../../helpers/data/dogsData';
-import DogPen from '../DogPen/DogPen';
-import StaffRoom from '../StaffRoom/StaffRoom';
-
-
-firebaseConnection.firebaseApp();
+import Dog from '../Dog/Dog';
+import Walks from '../Walks/Walks';
+import Employee from '../Employee/Employee';
+import employeesData from '../../helpers/data/employeesData';
+import walksData from '../../helpers/data/walksData';
 
 class Home extends React.Component {
   state = {
-    authed: false,
-    employees: [],
     dogs: [],
+    employees: [],
+    walks: [],
+    showWalks: false,
   }
 
-  getEmployees = () => {
-    employeesData.getAllEmployees()
-      .then((employees) => {
-        this.setState({ employees });
-      })
-      .catch((errFromGetEmployees) => console.error(errFromGetEmployees));
+  componentDidMount() {
+    this.getDogs();
+    this.getEmployees();
+    this.getWalks();
   }
 
   getDogs = () => {
@@ -33,46 +25,60 @@ class Home extends React.Component {
       .then((dogs) => {
         this.setState({ dogs });
       })
-      .catch((errFromGetDogs) => console.error(errFromGetDogs));
+      .catch((errorFromGetDogs) => console.error(errorFromGetDogs));
   }
 
-  componentDidMount() {
-    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ authed: true });
-      } else {
-        this.setState({ authed: false });
-      }
-    });
-    this.getEmployees();
-    this.getDogs();
+  getEmployees = () => {
+    employeesData.getAllEmployees()
+      .then((employees) => {
+        this.setState({ employees });
+      })
+      .catch((errorFromGetEmp) => console.error(errorFromGetEmp));
   }
 
-  componentWillUnmount() {
-    this.removeListener();
+  getWalks = () => {
+    walksData.getAllWalks()
+      .then((walks) => {
+        this.setState({ walks });
+      })
+      .catch((errorFromGetWalks) => console.error(errorFromGetWalks));
   }
 
-  renderView = () => {
-    const { authed, employees, dogs } = this.state;
-    if (!authed) {
-      return (<Auth />);
-    }
-    return (
-      <div>
-        <StaffRoom employees={employees}/>
-        <DogPen dogs={dogs}/>
-      </div>);
+  setShowWalks = () => {
+    this.setState({ showWalks: true });
+  }
+
+  hideShowWalks = () => {
+    this.setState({ showWalks: false });
   }
 
   render() {
-    const { authed } = this.state;
     return (
-      <div className="Home">
-        <MyNavbar authed={authed} />
+      <div className="App">
+        <div className="d-flex justify-content-center" id="dogWalks">
         {
-          this.renderView()
+        (this.state.showWalks) ? (<button className="btn btn-danger hide-form mt-3 mb-3" onClick={this.hideShowWalks}>Close</button>)
+          : (<button className="btn btn-primary mt-3" onClick={this.setShowWalks}>Walk Schedule</button>)
         }
-    </div>
+        </div>
+        <div className="d-flex flex-row flex-wrap">
+    { this.state.showWalks && this.state.walks.map((walk) => (<Walks key={walk.id} walk={walk} />))}
+        </div>
+          <div className="d-flex flex-row flex-wrap">
+            <div className="col-6">
+              <h1 className="text-center">Our Babies</h1>
+                  <div className="d-flex flex-wrap flex-row">
+                    { this.state.dogs.map((dog) => (<Dog key={dog.id} dog={dog} />))};
+                  </div>
+            </div>
+            <div className="col-6">
+              <h1 className="text-center">Our Staff</h1>
+                <div className="d-flex flex-wrap flex-row">
+                  { this.state.employees.map((employee) => (<Employee key={employee.id} employee={employee} />))}
+                </div>
+            </div>
+        </div>
+      </div>
     );
   }
 }

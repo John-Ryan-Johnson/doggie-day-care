@@ -2,36 +2,36 @@
   "walk1": {
     "dogId": "dog2",
     "employeeId": "employee1",
-    "date": "2020-12-26"
+    "date": "1/2/2020"
   },
   "walk2": {
     "dogId": "dog3",
     "employeeId": "employee1",
-    "date": "2020-12-26"
+    "date": "1/2/2020"
   },
   "walk3": {
     "dogId": "dog10",
     "employeeId": "employee1",
-    "date": "2020-12-26"
+    "date": "1/3/2020"
   },
   "walk4": {
     "dogId": "dog4",
     "employeeId": "employee3",
-    "date": "2020-02-26"
+    "date": "1/3/2020"
   },
   "walk5": {
     "dogId": "dog2",
     "employeeId": "employee3",
-    "date": "2020-02-26"
+    "date": "1/4/2020"
   },
   "walk6": {
     "dogId": "dog1",
     "employeeId": "employee3",
-    "date": "2020-02-26"
+    "date": "1/4/2020"
   },
   "walk7": {
     "dogId": "dog10",
     "employeeId": "employee5",
-    "date": "2020-01-26"
+    "date": "1/1/2020"
   }
 }

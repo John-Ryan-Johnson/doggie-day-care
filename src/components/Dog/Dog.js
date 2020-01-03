@@ -10,8 +10,8 @@ class Dog extends React.Component {
     const { dog } = this.props;
     return (
 
-      <div className="col-md-2">
-        <div className="card mb-2">
+      <div className="col-4 d-flex">
+        <div className="card mb-3 text-center">
           <img src={dog.imageUrl} className="card-img-top" alt="" />
           <div className="card-body">
             <h3 className="card-title">{dog.name}</h3>

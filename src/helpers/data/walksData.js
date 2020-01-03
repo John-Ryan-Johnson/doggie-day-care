@@ -1,19 +1,17 @@
 import axios from 'axios';
-
 import apiKeys from '../apiKeys.json';
 
 const baseUrl = apiKeys.firebaseKeys.databaseURL;
 
-const getWalksData = () => new Promise((resolve, reject) => {
+const getAllWalks = () => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/walks.json`)
-    .then((result) => {
-      const demWalks = result.data;
+    .then((response) => {
+      const allWalksObj = response.data;
       const walks = [];
-      if (demWalks != null) {
-        Object.keys(demWalks).forEach((walkId) => {
-          const newWalk = demWalks[walkId];
-          newWalk.id = walkId;
-          walks.push(newWalk);
+      if (allWalksObj != null) {
+        Object.keys(allWalksObj).forEach((fbId) => {
+          allWalksObj[fbId].id = fbId;
+          walks.push(allWalksObj[fbId]);
         });
       }
       resolve(walks);
@@ -21,15 +19,4 @@ const getWalksData = () => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-const deleteWalkById = (walkId) => axios.delete(`${baseUrl}/walks/${walkId}.json`);
-
-const saveWalk = (newWalk) => axios.post(`${baseUrl}/walks.json`, newWalk);
-
-const updateWalk = (walkId, newWalkInfo) => axios.put(`${baseUrl}/walks/${walkId}.json`, newWalkInfo);
-
-export default {
-  getWalksData,
-  deleteWalkById,
-  saveWalk,
-  updateWalk,
-};
+export default { getAllWalks };
