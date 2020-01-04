@@ -6,11 +6,11 @@ const baseUrl = apiKeys.firebaseKeys.databaseURL;
 const getAllEmployees = () => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/employees.json`)
     .then((result) => {
-      const allEmployeesObj = result.data;
+      const allEmpObj = result.data;
       const employees = [];
-      if (allEmployeesObj != null) {
-        Object.keys(allEmployeesObj).forEach((employeeId) => {
-          const newEmployee = allEmployeesObj[employeeId];
+      if (allEmpObj != null) {
+        Object.keys(allEmpObj).forEach((employeeId) => {
+          const newEmployee = allEmpObj[employeeId];
           newEmployee.id = employeeId;
           employees.push(newEmployee);
         });
