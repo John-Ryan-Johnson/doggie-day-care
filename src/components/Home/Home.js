@@ -62,7 +62,7 @@ class Home extends React.Component {
           <div className="col-6">
             <h1 className="text-center text-white mt-3 mb-3">Walk Schedule</h1>
               <div className="d-flex flex-wrap flex-row">
-                { this.state.walks.map((walk) => (<Walks key={walk.id} walk={walk} />))};
+                { this.state.walks.map((walk) => (<Walks key={walk.id} walk={walk} dogs={this.state.dogs} employees={this.state.employees} />))};
               </div>
           </div>
         </div>
