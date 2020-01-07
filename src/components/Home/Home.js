@@ -14,26 +14,26 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.getDogs();
-    this.getEmployees();
-    this.getWalks();
+    this.getDogs().then(() => {
+      this.getEmployees().then(() => {
+        this.getWalks();
+      });
+    });
   }
 
-  getDogs = () => {
-    dogsData.getAllDogs()
-      .then((dogs) => {
-        this.setState({ dogs });
-      })
-      .catch((errorFromGetDogs) => console.error(errorFromGetDogs));
-  }
+  getDogs = () => dogsData.getAllDogs()
+    .then((dogs) => {
+      this.setState({ dogs });
+    })
+    .catch((errorFromGetDogs) => console.error(errorFromGetDogs));
 
-  getEmployees = () => {
-    employeesData.getAllEmployees()
-      .then((employees) => {
-        this.setState({ employees });
-      })
-      .catch((errorFromGetEmp) => console.error(errorFromGetEmp));
-  }
+
+  getEmployees = () => employeesData.getAllEmployees()
+    .then((employees) => {
+      this.setState({ employees });
+    })
+    .catch((errorFromGetEmp) => console.error(errorFromGetEmp));
+
 
   getWalks = () => {
     walksData.getAllWalks()
