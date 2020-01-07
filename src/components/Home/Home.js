@@ -11,7 +11,6 @@ class Home extends React.Component {
     dogs: [],
     employees: [],
     walks: [],
-    showWalks: false,
   }
 
   componentDidMount() {
@@ -44,39 +43,28 @@ class Home extends React.Component {
       .catch((errorFromGetWalks) => console.error(errorFromGetWalks));
   }
 
-  setShowWalks = () => {
-    this.setState({ showWalks: true });
-  }
-
-  hideShowWalks = () => {
-    this.setState({ showWalks: false });
-  }
-
   render() {
     return (
-      <div className="App">
-        <div className="d-flex justify-content-center" id="dogWalks">
-        {
-        (this.state.showWalks) ? (<button className="btn btn-danger hide-form mt-3 mb-3" onClick={this.hideShowWalks}>Close</button>)
-          : (<button className="btn btn-primary mt-3" onClick={this.setShowWalks}>Walk Schedule</button>)
-        }
-        </div>
-        <div className="d-flex flex-row flex-wrap">
-    { this.state.showWalks && this.state.walks.map((walk) => (<Walks key={walk.id} walk={walk} />))};
-        </div>
-          <div className="d-flex flex-row flex-wrap">
-            <div className="col-6">
-              <h1 className="text-center">Our Babies</h1>
-                  <div className="d-flex flex-wrap flex-row">
-                    { this.state.dogs.map((dog) => (<Dog key={dog.id} dog={dog} />))};
-                  </div>
-            </div>
-            <div className="col-6">
-              <h1 className="text-center">Our Staff</h1>
-                <div className="d-flex flex-wrap flex-row">
-                  { this.state.employees.map((employee) => (<Employee key={employee.id} employee={employee} />))};
-                </div>
-            </div>
+      <div className="Home">
+        <div className="d-flex flex-wrap flex-row">
+          <div className="col-6">
+            <h1 className="text-center text-white mt-3 mb-3">Our Babies</h1>
+              <div className="d-flex flex-wrap flex-row">
+                { this.state.dogs.map((dog) => (<Dog key={dog.id} dog={dog} />))};
+              </div>
+          </div>
+          <div className="col-6">
+            <h1 className="text-center text-white mt-3 mb-3">Our Staff</h1>
+              <div className="d-flex flex-wrap flex-row">
+                { this.state.employees.map((employee) => (<Employee key={employee.id} employee={employee} />))};
+              </div>
+          </div>
+          <div className="col-6">
+            <h1 className="text-center text-white mt-3 mb-3">Walk Schedule</h1>
+              <div className="d-flex flex-wrap flex-row">
+                { this.state.walks.map((walk) => (<Walks key={walk.id} walk={walk} />))};
+              </div>
+          </div>
         </div>
       </div>
     );

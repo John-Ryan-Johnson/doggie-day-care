@@ -6,17 +6,14 @@ const baseUrl = apiKeys.firebaseKeys.databaseURL;
 const getAllWalks = () => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/walks.json`)
     .then((response) => {
-      const allWalksObj = response.data;
-      const walks = [];
-      if (allWalksObj != null) {
-        Object.keys(allWalksObj).forEach((fbId) => {
-          allWalksObj[fbId].id = fbId;
-          walks.push(allWalksObj[fbId]);
-        });
-      }
-      resolve(walks);
-    })
-    .catch((error) => reject(error));
+      const walks = response.data;
+      const allWalks = [];
+      Object.keys(walks).forEach((fbId) => {
+        walks[fbId].id = fbId;
+        allWalks.push(walks[fbId]);
+      });
+      resolve(allWalks);
+    }).catch((err) => reject(err));
 });
 
 export default { getAllWalks };
