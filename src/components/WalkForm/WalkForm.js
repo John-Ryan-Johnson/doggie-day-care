@@ -94,8 +94,8 @@ class WalkForm extends React.Component {
             <input type='date' className='form-control' id='dateSelection' value={this.state.dateOfWalk} onChange={this.changeDate} />
           </div>
           {
-            (!editMode) ? (<button className='btn btn-dark' onClick={this.scheduleWalkEvent}>Save</button>)
-              : (<button className='btn btn-outline-dark' onClick={this.updateWalkEvent}>Update</button>)
+            (!editMode) ? (<button className='btn btn-primary' onClick={this.scheduleWalkEvent}>Save</button>)
+              : (<button className='btn btn-primary' onClick={this.updateWalkEvent}>Update</button>)
           }
         </form>
       </div>
