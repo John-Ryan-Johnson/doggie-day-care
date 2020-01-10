@@ -38,6 +38,10 @@ Update:
 
 ![Main View](https://github.com/John-Ryan-Johnson/doggie-day-care/blob/master/Screenshots/Edit%20view.PNG)
 
+Delete view:
+
+![Main View](https://github.com/John-Ryan-Johnson/doggie-day-care/blob/master/Screenshots/Edit%20view.PNG)
+
 # How To Run
 
 * Clone down the project
@@ -48,4 +52,4 @@ Update:
 
 ## Contributors
 
-John Johnson
+[John Johnson](https://github.com/John-Ryan-Johnson)
