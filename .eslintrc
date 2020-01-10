@@ -28,7 +28,7 @@
     "linebreak-style": 0,
     "max-len": [
       1,
-      200,
+      300,
       2
     ]
   }

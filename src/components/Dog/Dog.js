@@ -1,5 +1,6 @@
 import React from 'react';
 import dogShape from '../../helpers/propz/dogShape';
+import './Dog.scss';
 
 class Dog extends React.Component {
   static propTypes = {
@@ -9,15 +10,12 @@ class Dog extends React.Component {
   render() {
     const { dog } = this.props;
     return (
-
-      <div className="col-6 d-flex">
-        <div className="card mb-3 text-center">
-          <img src={dog.imageUrl} className="card-img-top" alt="" />
-          <div className="card-body">
-            <h3 className="card-title">{dog.name}</h3>
-            <h5 className="card-text">Owner: {dog.owner}</h5>
-            <p className="card-text"><b>About:</b> {dog.description}</p>
-          </div>
+      <div className='card col-2 m-2 mb-4'>
+        <img src={dog.imageUrl} className='card-img-top' alt={dog.name} />
+        <div className='card-body text-center'>
+          <h3 className='card-title text-white'>{dog.name}</h3>
+          <p className='card-text'>{dog.description}</p>
+          <p className='card-text'>Owner: {dog.owner}</p>
         </div>
       </div>
     );

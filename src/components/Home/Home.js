@@ -1,78 +1,102 @@
+import './Home.scss';
 import React from 'react';
 import dogsData from '../../helpers/data/dogsData';
-import Dog from '../Dog/Dog';
-import Walks from '../Walks/Walks';
-import Employee from '../Employee/Employee';
 import employeesData from '../../helpers/data/employeesData';
+import DogPen from '../DogPen/DogPen';
+import StaffRoom from '../StaffRoom/StaffRoom';
+import Schedule from '../Schedule/Schedule';
 import walksData from '../../helpers/data/walksData';
+import WalkForm from '../WalkForm/WalkForm';
 
 class Home extends React.Component {
   state = {
-    dogs: [],
-    employees: [],
-    walks: [],
+    allDogs: [],
+    allStaff: [],
+    allWalks: [],
+    displayForm: false,
+    walkToEdit: {},
+    editMode: false,
   }
-
-  componentDidMount() {
-    this.getDogs().then(() => {
-      this.getEmployees().then(() => {
-        this.getWalks();
-      });
-    });
-  }
-
-  getDogs = () => dogsData.getAllDogs()
-    .then((dogs) => {
-      this.setState({ dogs });
-    })
-    .catch((errorFromGetDogs) => console.error(errorFromGetDogs));
-
-
-  getEmployees = () => employeesData.getAllEmployees()
-    .then((employees) => {
-      this.setState({ employees });
-    })
-    .catch((errorFromGetEmp) => console.error(errorFromGetEmp));
-
 
   getWalks = () => {
     walksData.getAllWalks()
-      .then((walks) => {
-        this.setState({ walks });
-      })
-      .catch((errorFromGetWalks) => console.error(errorFromGetWalks));
+      .then((allWalks) => {
+        this.setState({ allWalks });
+      }).catch((err) => console.error(err));
   }
 
-  deleteWalk = (walkId) => {
+  componentDidMount() {
+    dogsData.getAllDogs()
+      .then((allDogs) => {
+        employeesData.getAllEmployees()
+          .then((allStaff) => {
+            this.getWalks();
+            this.setState({ allDogs, allStaff });
+          });
+      }).catch((err) => console.error(err));
+  }
+
+  cancelWalk = (walkId) => {
     walksData.deleteWalk(walkId)
-      .then(() => this.getWalks())
-      .catch((err) => console.error('error deleting walk', err));
+      .then(() => {
+        this.getWalks();
+      }).catch((err) => console.error(err));
+  }
+
+  scheduleWalk = (walkObj) => {
+    walksData.addWalk(walkObj)
+      .then(() => {
+        this.getWalks();
+        this.setState({ displayForm: false });
+      }).catch((err) => console.error(err));
+  }
+
+  editWalk = (walkId, walkObj) => {
+    walksData.updateWalk(walkId, walkObj)
+      .then(() => {
+        this.getWalks();
+        this.setState({ editMode: false, displayForm: false });
+      }).catch((err) => console.error(err));
+  }
+
+  setWalkToEdit = (walk) => {
+    this.setState({ walkToEdit: walk });
+  }
+
+  changeEditMode = (editMode) => {
+    this.setState({ editMode, displayForm: true });
+  }
+
+  displayWalkForm = (e) => {
+    e.preventDefault();
+    this.setState({ displayForm: true });
   }
 
   render() {
+    const {
+      allDogs,
+      allStaff,
+      allWalks,
+      displayForm,
+      editMode,
+      walkToEdit,
+    } = this.state;
+
     return (
       <div className="Home">
-        <div className="d-flex flex-wrap flex-row">
-          <div className="col-4">
-            <h1 className="text-center text-white mt-3 mb-3">Our Babies</h1>
-              <div className="d-flex flex-wrap flex-row">
-                { this.state.dogs.map((dog) => (<Dog key={dog.id} dog={dog} />))};
+        {
+          (displayForm) ? (<WalkForm allDogs={allDogs} allStaff={allStaff} scheduleWalk={this.scheduleWalk} editMode={editMode} walkToEdit={walkToEdit} editWalk={this.editWalk} />)
+            : (
+              <div>
+                <div className='scheduleBtnHolder m-3 text-center'>
+                  <button className='btn btn-primary m-3' onClick={this.displayWalkForm}>Schedule a Walk</button>
+                </div>
+                <Schedule allWalks={allWalks} allDogs={allDogs} allStaff={allStaff} cancelWalk={this.cancelWalk} setWalkToEdit={this.setWalkToEdit} changeEditMode={this.changeEditMode} />
+                <DogPen allDogs={allDogs} />
+                <StaffRoom allStaff={allStaff} />
               </div>
-          </div>
-          <div className="col-4">
-            <h1 className="text-center text-white mt-3 mb-3">Our Staff</h1>
-              <div className="d-flex flex-wrap flex-row">
-                { this.state.employees.map((employee) => (<Employee key={employee.id} employee={employee} />))};
-              </div>
-          </div>
-          <div className="col-4 text-center">
-            <h1 className="text-center text-white mt-3 mb-3">Walk Schedule</h1>
-            <button className="btn btn-primary mb-3">Add Walk</button>
-              <div className="d-flex flex-wrap flex-row">
-                { this.state.walks.map((walk) => (<Walks key={walk.id} walk={walk} dogs={this.state.dogs} employees={this.state.employees} deleteWalk={this.deleteWalk} />))};
-              </div>
-          </div>
-        </div>
+            )
+        }
       </div>
     );
   }
