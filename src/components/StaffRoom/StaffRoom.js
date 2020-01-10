@@ -1,22 +1,23 @@
+import './StaffRoom.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Employee from '../Employee/Employee';
 import employeeShape from '../../helpers/propz/employeeShape';
+import Employee from '../Employee/Employee';
 
 class StaffRoom extends React.Component {
   static propTypes = {
-    allEmployees: PropTypes.arrayOf(employeeShape.employeeShape),
+    allStaff: PropTypes.arrayOf(employeeShape.employeeShape),
   }
 
   render() {
-    const { allEmployees } = this.props;
+    const { allStaff } = this.props;
+
+    const printEmployees = allStaff.map((employee) => <Employee key={employee.id} employee={employee} />);
     return (
-      <div className="StaffRoom">
-        <h1 className="text-center text-white mt-3 mb-3">Our Staff</h1>
-        <div className="row justify-content-center">
-          {
-            allEmployees.map((employee) => <Employee key={employee.id} employee={employee} />)
-          }
+      <div id='staffRoom'>
+        <h2 className="title text-center text-white mb-3">Our Staff</h2>
+        <div className='row d-flex flex-wrap justify-content-around'>
+          {printEmployees}
         </div>
       </div>
     );

@@ -8,15 +8,25 @@ const getAllWalks = () => new Promise((resolve, reject) => {
     .then((response) => {
       const walks = response.data;
       const allWalks = [];
-      Object.keys(walks).forEach((fbId) => {
-        walks[fbId].id = fbId;
-        allWalks.push(walks[fbId]);
-      });
+      if (walks) {
+        Object.keys(walks).forEach((fbId) => {
+          walks[fbId].id = fbId;
+          allWalks.push(walks[fbId]);
+        });
+      }
       resolve(allWalks);
     }).catch((err) => reject(err));
 });
 
 const deleteWalk = (walkId) => axios.delete(`${baseUrl}/walks/${walkId}.json`);
 
+const addWalk = (walkObj) => axios.post(`${baseUrl}/walks.json`, walkObj);
 
-export default { getAllWalks, deleteWalk };
+const updateWalk = (walkId, walkObj) => axios.put(`${baseUrl}/walks/${walkId}.json`, walkObj);
+
+export default {
+  getAllWalks,
+  deleteWalk,
+  addWalk,
+  updateWalk,
+};

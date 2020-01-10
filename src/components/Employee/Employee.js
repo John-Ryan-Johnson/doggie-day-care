@@ -1,5 +1,6 @@
 import React from 'react';
 import employeeShape from '../../helpers/propz/employeeShape';
+import './Employee.scss';
 
 class Employee extends React.Component {
   static propTypes = {
@@ -9,14 +10,9 @@ class Employee extends React.Component {
   render() {
     const { employee } = this.props;
     return (
-
-      <div className="col-6 d-flex">
-        <div className="card mb-5">
-          <div className="card-body text-center">
-            <h5 className="card-title">{employee.firstName} {employee.lastName}</h5>
-            <p className="card-text">Phone Number: {employee.phoneNumber}</p>
-          </div>
-        </div>
+      <div className='employeeCard col-3 mb-5 text-center'>
+        <h3>{employee.firstName} {employee.lastName}</h3>
+        <h5 className="number">{employee.phoneNumber}</h5>
       </div>
     );
   }
