@@ -3,41 +3,22 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import walkShape from '../../helpers/propz/walkShape';
-import dogShape from '../../helpers/propz/dogShape';
-import employeeShape from '../../helpers/propz/employeeShape';
+
+import employeesData from '../../helpers/data/employeesData';
+import dogsData from '../../helpers/data/dogsData';
 
 class Walks extends React.Component {
-  state = {
-    assignedEmployee: '',
-    assignedDog: '',
-  }
-
   static propTypes = {
     walk: walkShape.walkShape,
-    allDogs: PropTypes.arrayOf(dogShape.dogShape),
-    allStaff: PropTypes.arrayOf(employeeShape.employeeShape),
     cancelWalk: PropTypes.func,
     changeEditMode: PropTypes.func,
     setWalkToEdit: PropTypes.func,
   }
 
-  getNamesById = () => {
-    const { walk, allDogs, allStaff } = this.props;
-    const findEmployee = allStaff.find((x) => x.id === walk.employeeId);
-    const fullName = `${findEmployee.firstName} ${findEmployee.lastName}`;
-    const findDog = allDogs.find((y) => y.id === walk.dogId);
-    const dogName = findDog.name;
-    this.setState({ assignedEmployee: fullName, assignedDog: dogName });
-  }
-
-  componentDidMount() {
-    this.getNamesById();
-  }
-
-  componentDidUpdate(prevProps) {
-    if ((prevProps.walk.employeeId !== this.props.walk.employeeId || prevProps.walk.dogId !== this.props.walk.dogId) && !this.props.editMode) {
-      this.getNamesById();
-    }
+  state = {
+    employeeFirstName: '',
+    employeeLastName: '',
+    dogName: '',
   }
 
   cancelWalkEvent = (e) => {
@@ -47,20 +28,43 @@ class Walks extends React.Component {
   }
 
   setEditMode = (e) => {
-    e.preventDefault();
     const { changeEditMode, setWalkToEdit, walk } = this.props;
+    e.preventDefault();
     changeEditMode(true);
     setWalkToEdit(walk);
   }
 
+  getSingleEmployee = () => {
+    const { walk } = this.props;
+    employeesData.getSingleEmployee(walk.employeeId)
+      .then((response) => {
+        this.setState({ firstName: response.data.firstName, lastName: response.data.lastName });
+      })
+      .catch((error) => console.error(error));
+  }
+
+  getSingleDog = () => {
+    const { walk } = this.props;
+    dogsData.getSingleDog(walk.dogId)
+      .then((response) => {
+        this.setState({ dogName: response.data.name });
+      })
+      .catch((error) => console.error(error));
+  }
+
+  componentDidMount() {
+    this.getSingleDog();
+    this.getSingleEmployee();
+  }
+
   render() {
     const { walk } = this.props;
-    const { assignedDog, assignedEmployee } = this.state;
+    const { firstName, lastName, dogName } = this.state;
 
     return (
       <div className='Walks p-2 m-3 text-center'>
-        <p>Dog: {assignedDog}</p>
-        <p>Walker: {assignedEmployee}</p>
+        <p>Dog: {dogName}</p>
+    <p>Walker: {firstName} {lastName}</p>
         <p>{walk.date}</p>
         <button className='btn btn-outline-danger' onClick={this.cancelWalkEvent}>Delete</button>
         <button className='btn btn-outline-primary ml-3' onClick={this.setEditMode}>Edit</button>
