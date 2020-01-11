@@ -40,7 +40,7 @@ Update:
 
 Delete view:
 
-![Main View](https://github.com/John-Ryan-Johnson/doggie-day-care/blob/master/Screenshots/Edit%20view.PNG)
+![Main View](https://github.com/John-Ryan-Johnson/doggie-day-care/blob/master/Screenshots/Delete%20view.PNG)
 
 # How To Run
 
